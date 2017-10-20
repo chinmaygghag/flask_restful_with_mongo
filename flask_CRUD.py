@@ -17,17 +17,17 @@ mongo = PyMongo(app)
 #     client = MongoClient(MONGO_URI, PORT)
 #     return client
 
-@app.route('/wbtestGet', methods=['GET'])
-def get_all_wbTestData():
+@app.route('/testGet', methods=['GET'])
+def get_all_testData():
   client = MongoClient(MONGO_URI, PORT)
   db = client['test']
-  data_set = mongo.db.wbtest.find()
+  data_set = mongo.db.test.find()
   data = [json.dumps(item, default=json_util.default) for item in data_set]
   return '<pre>{}</pre>'.format(data)
   #return jsonify(data = data)
 
-@app.route('/wbtestSpecificData', methods=['POST'])
-def get_specific_wbTestData():
+@app.route('/testSpecificData', methods=['POST'])
+def get_specific_testData():
   client = MongoClient(MONGO_URI, PORT)
   db = client['test']
   req_data_set = request.get_json()
@@ -37,17 +37,17 @@ def get_specific_wbTestData():
   else:
       registration = req_data_set.get('email')
       if registration:
-          data_set = mongo.db.wbtest.find_one({"email":registration})
+          data_set = mongo.db.test.find_one({"email":registration})
           if data_set:
-              data_set = mongo.db.wbtest.find({"email":registration})
+              data_set = mongo.db.test.find({"email":registration})
               data_req = [json.dumps(item, default=json_util.default) for item in data_set]
               return '<pre>{}</pre>'.format(data_req)
             #return jsonify(data)
           else:
               return ("User doesn't exist")
 
-@app.route('/wbtestPost', methods=['POST'])
-def add_wbData():
+@app.route('/testPost', methods=['POST'])
+def add_Data():
   client = MongoClient(MONGO_URI, PORT)
   db = client['test']
   data = request.get_json()
@@ -57,30 +57,30 @@ def add_wbData():
   else:
     registration = data.get('email')
     if registration:
-        if mongo.db.wbtest.find_one({"email": registration}):
+        if mongo.db.test.find_one({"email": registration}):
             return ("User already exist ")
 
         else:
-            mongo.db.wbtest.insert_one(data)
+            mongo.db.test.insert_one(data)
     else:
         return jsonify({"response": "e-mail missing"})
   return ("Added Succesfully")
 
 
-@app.route('/wbtestUpdate', methods=['POST'])
-def update_wbData():
+@app.route('/testUpdate', methods=['POST'])
+def update_Data():
   client = MongoClient(MONGO_URI, PORT)
   db = client['test']
-  wbtest = mongo.db.wbtest
+  wbtest = mongo.db.test
   data = request.get_json()
   if not data:
     data = {"response": "ERROR"}
     return jsonify(data)
   else:
     registration = data.get('email')
-    data_set = mongo.db.wbtest.find_one({"email": registration})
+    data_set = mongo.db.test.find_one({"email": registration})
     if registration:
-        if mongo.db.wbtest.find_one({"email": registration}):
+        if mongo.db.test.find_one({"email": registration}):
             db.wbtest.update(data_set,data)
             return ("Updated Succesfully")
         else:
