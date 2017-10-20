@@ -1,0 +1,20 @@
+{
+  "email": "abc@gmail.com",
+  "basic": {
+    "username": "abc",
+    "dob": "01/01/1990"
+  },
+  "statistics": {
+    "win": "5",
+    "kill":"7,",
+    "loss": "10"
+  },
+  "achievements": [
+    "win 10 matches in a row",
+    "Played at a national level"
+  ],
+  "matches": [
+    "plays Team Based Shooter",
+    "Plays chess"
+  ]
+}
